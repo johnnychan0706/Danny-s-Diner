@@ -62,7 +62,22 @@ ORDER BY customer_id ASC, orders DESC;
 ### 6. Which item was purchased first by the customer after they became a member?
 
 ````sql
-
+WITH after_member_sales_cte AS
+(
+ SELECT sales.customer_id, members.join_date, sales.order_date, sales.product_id,
+ DENSE_RANK() OVER(PARTITION BY sales.customer_id 
+                   ORDER BY sales.order_date) AS RANK
+ FROM dannys_diner.sales
+ JOIN dannys_diner.members 
+ ON sales.customer_id = members.customer_id
+ WHERE sales.order_Date >= members.join_date
+) 
+SELECT customer_id, product_name
+FROM after_member_sales_cte
+JOIN dannys_diner.menu
+ON after_member_sales_cte.product_id = menu.product_id
+WHERE RANK = 1
+ORDER BY customer_id;
 ````
 
 ### 7. Which item was purchased just before the customer became a member?
