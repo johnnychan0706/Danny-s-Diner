@@ -1,4 +1,4 @@
-# Case Study #1: Danny's Diner - Solution
+# Danny's Diner - Solution
 ''''sql
 SELECT customer_id AS customer, SUM(menu.price) AS spending
 FROM dannys_diner.sales 
