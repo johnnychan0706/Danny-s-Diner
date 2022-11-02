@@ -133,7 +133,6 @@ ORDER BY customer_id;
 | A           | curry        |
 | B           | sushi        |
 
-[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
 ### 7. Which item was purchased just before the customer became a member?
 
 ````sql
@@ -177,8 +176,6 @@ WITH points_cte AS
 | B           | 940 |
 | C           | 360 |
 
-
-[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
 ### 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
 ````sql
