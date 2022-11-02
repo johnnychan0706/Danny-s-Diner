@@ -19,8 +19,6 @@ GROUP BY customer_id ORDER BY customer_id ASC;
 | B        | 74       |
 | C        | 36       |
 
-
-
 ### 2. How many days has each customer visited the restaurant?
 
 ````sql
@@ -28,6 +26,8 @@ SELECT customer_id, COUNT(DISTINCT(order_date)) AS visits
 FROM dannys_diner.sales
 GROUP BY customer_id ORDER BY COUNT(DISTINCT(order_date)) DESC;
 ````
+- Use DISTINCT and wrap with COUNT to find out the number of visits for each customer
+- We use DISTINCT for the order_date to avoid double counting  as a customer may order multiple items for each visit
 #### Output
 | customer_id | visits |
 | ----------- | ------ |
@@ -53,6 +53,8 @@ FROM sales_time_cte
 WHERE rank = 1
 GROUP BY customer_id, product_name;
 ````
+- Create a temp table by using windows function and rank to create rank column based on order date
+- Use WHERE to retrieve rows with RANK = 1 only and then GROUP BY to group it by customer
 #### Output
 | customer_id | product_name |
 | ----------- | ------------ |
@@ -71,6 +73,7 @@ ON dannys_diner.sales.product_id = dannys_diner.menu.product_id
 GROUP BY product_name
 ORDER BY orders DESC;
 ````
+- COUNT the product_id and then arrange in descending order to find out the item that is most purchased by all customer
 #### Output
 | product_name | orders |
 | ------------ | ------ |
@@ -88,6 +91,8 @@ ON dannys_diner.sales.product_id = dannys_diner.menu.product_id
 GROUP BY product_name, customer_id
 ORDER BY customer_id ASC, orders DESC;
 ````
+- Use COUNT function to count for number of orders for each item
+- Use GROUP BY to sort the orders by customer and use ORDER by to arrange the order count in descending order
 #### Output
 | product_name | customer_id | orders |
 | ------------ | ----------- | ------ |
@@ -119,7 +124,16 @@ ON after_member_sales_cte.product_id = menu.product_id
 WHERE RANK = 1
 ORDER BY customer_id;
 ````
+- Create a temp table and use DENSE RANK function to list the sales and arrange them in ascending order
+- Use WHERE function to show only sales that are made on or after the join_date of the customer on the temp table
+- Use WHERE function for the table to only show data with rank = 1 
+#### Output
+| customer_id | product_name |
+| ----------- | ------------ |
+| A           | curry        |
+| B           | sushi        |
 
+[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
 ### 7. Which item was purchased just before the customer became a member?
 
 ````sql
@@ -151,7 +165,20 @@ WITH points_cte AS
   GROUP BY customer_id
   ORDER BY customer_id ASC;
 ````
+- Create a temp table and use Case function to create 2 scenarios: 
+1) when the product_id = 1 (i.e. sushi)  points = price * 20
+2) when the product_id != 1 (i.e. other items)  points = price*10
+- join the temp table and the sales table and SUM the points column and GROUP them by customer to find the total points for each customer
 
+#### Output
+| customer_id | sum |
+| ----------- | --- |
+| A           | 860 |
+| B           | 940 |
+| C           | 360 |
+
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
 ### 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
 ````sql
@@ -176,3 +203,23 @@ WHERE sales.order_date <= membership_cte.last_date
 GROUP BY sales.customer_id, sales.order_date, product_name
 ORDER BY sales.customer_id;
 ````
+- Create a temp table to record the range of dates where client would be eligible for 2x points
+- Use case function to create 3 cases for points calculation
+1) For product_id = 1 (i.e. ramen) points = price *20
+2) For order_date is between join_date and member_date (last day of promotion) points = price * 20 
+3) For all other orders points = price*10
+- Select all the required information and GROUP and ORDER them by customer_id
+#### Output
+| customer_id | order_date               | product_name | points |
+| ----------- | ------------------------ | ------------ | ------ |
+| A           | 2021-01-01T00:00:00.000Z | curry        | 150    |
+| A           | 2021-01-01T00:00:00.000Z | sushi        | 200    |
+| A           | 2021-01-07T00:00:00.000Z | curry        | 300    |
+| A           | 2021-01-10T00:00:00.000Z | ramen        | 240    |
+| A           | 2021-01-11T00:00:00.000Z | ramen        | 480    |
+| B           | 2021-01-01T00:00:00.000Z | curry        | 150    |
+| B           | 2021-01-02T00:00:00.000Z | curry        | 150    |
+| B           | 2021-01-04T00:00:00.000Z | sushi        | 200    |
+| B           | 2021-01-11T00:00:00.000Z | sushi        | 200    |
+| B           | 2021-01-16T00:00:00.000Z | ramen        | 120    |
+
