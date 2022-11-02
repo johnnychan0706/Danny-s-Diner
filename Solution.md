@@ -26,8 +26,14 @@ GROUP BY customer_id ORDER BY customer_id ASC;
 ````sql
 SELECT customer_id, COUNT(DISTINCT(order_date)) AS visits
 FROM dannys_diner.sales
-GROUP BY customer_id ORDER BY COUNT(DISTINCT(order_date)) DESC
+GROUP BY customer_id ORDER BY COUNT(DISTINCT(order_date)) DESC;
 ````
+#### Output
+| customer_id | visits |
+| ----------- | ------ |
+| B           | 6      |
+| A           | 4      |
+| C           | 2      |
 
 
 ### 3. What was the first item from the menu purchased by each customer?
@@ -47,6 +53,13 @@ FROM sales_time_cte
 WHERE rank = 1
 GROUP BY customer_id, product_name;
 ````
+#### Output
+| customer_id | product_name |
+| ----------- | ------------ |
+| A           | curry        |
+| A           | sushi        |
+| B           | curry        |
+| C           | ramen        |
 
 ### 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
 
@@ -58,6 +71,12 @@ ON dannys_diner.sales.product_id = dannys_diner.menu.product_id
 GROUP BY product_name
 ORDER BY orders DESC;
 ````
+#### Output
+| product_name | orders |
+| ------------ | ------ |
+| ramen        | 8      |
+| curry        | 4      |
+| sushi        | 3      |
 
 ### 5. Which item was the most popular for each customer?
 
@@ -69,6 +88,16 @@ ON dannys_diner.sales.product_id = dannys_diner.menu.product_id
 GROUP BY product_name, customer_id
 ORDER BY customer_id ASC, orders DESC;
 ````
+#### Output
+| product_name | customer_id | orders |
+| ------------ | ----------- | ------ |
+| ramen        | A           | 3      |
+| curry        | A           | 2      |
+| sushi        | A           | 1      |
+| curry        | B           | 2      |
+| sushi        | B           | 2      |
+| ramen        | B           | 2      |
+| ramen        | C           | 3      |
 
 ### 6. Which item was purchased first by the customer after they became a member?
 
