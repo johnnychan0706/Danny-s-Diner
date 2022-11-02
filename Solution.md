@@ -9,6 +9,8 @@ FROM dannys_diner.sales
     	ON dannys_diner.sales.product_id = dannys_diner.menu.product_id
 GROUP BY customer_id ORDER BY customer_id ASC;
 ````
+- Use SUM and GROUP BY to find the total sales of each customer
+- Use JOIN to merge the sales and menu table as price of product is in the menu table
 
 ### 2. How many days has each customer visited the restaurant?
 
