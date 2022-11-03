@@ -136,14 +136,55 @@ ORDER BY customer_id;
 ### 7. Which item was purchased just before the customer became a member?
 
 ````sql
-
+WITH after_member_sales_cte AS
+(
+ SELECT sales.customer_id, members.join_date, sales.order_date, sales.product_id,
+ DENSE_RANK() OVER(PARTITION BY sales.customer_id 
+                   ORDER BY sales.order_date DESC) AS RANK
+ FROM dannys_diner.sales
+ JOIN dannys_diner.members 
+ ON sales.customer_id = members.customer_id
+ WHERE sales.order_Date < members.join_date
+) 
+SELECT customer_id, product_name, order_date
+FROM after_member_sales_cte
+JOIN dannys_diner.menu
+ON after_member_sales_cte.product_id = menu.product_id
+WHERE RANK = 1
+ORDER BY customer_id;
 ````
+- Create a temp table and rank the sales of each customer in descending order (i.e. most recent order ranks higher)
+- SELECT only sales with oder_date ealier than the join_date
+- SELECT all the sales order with rank =1
+#### Output
+| customer_id | product_name | order_date               |
+| ----------- | ------------ | ------------------------ |
+| A           | sushi        | 2021-01-01T00:00:00.000Z |
+| A           | curry        | 2021-01-01T00:00:00.000Z |
+| B           | sushi        | 2021-01-04T00:00:00.000Z |
 
 ### 8. What is the total items and amount spent for each member before they became a member?
 
 ````sql
-
+SELECT sales.customer_id, COUNT (order_date) AS total_item, SUM(price) AS total_spending
+ FROM dannys_diner.sales
+ JOIN dannys_diner.members 
+ 	ON sales.customer_id = members.customer_id
+ JOIN dannys_diner.menu
+ ON sales.product_id = menu.product_id
+ 
+ WHERE sales.order_Date < members.join_date
+ GROUP BY sales.customer_id
+ ORDER BY customer_id;
 ````
+- COUNT order_date to get the total items ordered, SUM price to get the total spending
+- Use GROUP BY function to show sales by each customer
+- Use WHERE function to filter out only sales that mare made before the customer become a member
+#### Output
+| customer_id | total_item | total_spending |
+| ----------- | ---------- | -------------- |
+| A           | 2          | 25             |
+| B           | 3          | 40             |
 
 ### 9.If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
