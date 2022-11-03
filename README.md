@@ -6,9 +6,7 @@ Danny wants to use the data to answer a few simple questions about his customers
 
 ### Entity Relationship Diagram
 
-![image]([Entity Relationship Diagram.jpg](https://github.com/johnnychan0706/Dannys-Diner/blob/878a2aec8b4b1ff9faf40a7fe99e370886502c90/Entity%20Relationship%20Diagram.jpg))
-
-https://github.com/johnnychan0706/Dannys-Diner/blob/878a2aec8b4b1ff9faf40a7fe99e370886502c90/Entity%20Relationship%20Diagram.jpg
+![image](https://github.com/johnnychan0706/Dannys-Diner/blob/878a2aec8b4b1ff9faf40a7fe99e370886502c90/Entity%20Relationship%20Diagram.jpg)
 
 ### Questions
 1) What is the total amount each customer spent at the restaurant?
