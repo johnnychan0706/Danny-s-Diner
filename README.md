@@ -1,11 +1,11 @@
 # Danny's Diner
-![image](intro .png)
+![image](Intro.jpg)
 ### Introduction
 Danny opens up a little restaurant in the beginning of 2021 that sells his 3 favourite foods: sushi, curry and ramen.
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite.
 
 ### Entity Relationship Diagram
-![image](Entity Relationship Diagram.png)
+![image](Entity Relationship Diagram.jpg)
 
 ### Questions
 1) What is the total amount each customer spent at the restaurant?
