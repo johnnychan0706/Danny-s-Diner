@@ -1,5 +1,6 @@
 # Danny's Diner
 ![image](Intro.jpg)
+<img src="Intro.jpg" height="100">
 ### Introduction
 Danny opens up a little restaurant in the beginning of 2021 that sells his 3 favourite foods: sushi, curry and ramen.
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite.
